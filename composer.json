@@ -15,7 +15,8 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"Zend_Locale": "library/"
+			"Zend_Locale": "library/",
+			"Zend_Translate_Plural": "library/"
 		}
 	},
 	"suggest": {
