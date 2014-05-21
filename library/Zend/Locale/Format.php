@@ -749,13 +749,38 @@ class Zend_Locale_Format
                          'P' => 'ZZZZ', 'T' => 'z'   , 'Z' => 'X'   , 'c' => 'yyyy-MM-ddTHH:mm:ssZZZZ',
                          'r' => 'r'   , 'U' => 'U');
         $values = str_split($format);
+        $escaped = false;
+        $lastescaped = false;
+        $temp = array();
         foreach ($values as $key => $value) {
-            if (isset($convert[$value]) === true) {
-                $values[$key] = $convert[$value];
+            if (!$escaped && $value == '\\') {
+                $escaped = true;
+                continue;
+            }
+            if ($escaped) {
+                if (!$lastescaped) {
+                    $temp[] = "'";
+                    $lastescaped = true;
+                }
+                $temp[] = $value;
+                $escaped = false;
+            } else {
+                if ($value == "'") {
+                    $temp[] = "''";
+                } else {
+                    if ($lastescaped) {
+                        $temp[] = "'";
+                        $lastescaped = false;
+                    }
+                    if (isset($convert[$value]) === true) {
+                        $temp[] = $convert[$value];
+                    } else {
+                        $temp[] = $value;
+                    }
+                }
             }
         }
-
-        return join($values);
+        return join($temp);
     }
 
     /**
