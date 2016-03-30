@@ -20,8 +20,5 @@
 		"psr-0": {
 			"Zend_Locale": "library/"
 		}
-	},
-	"suggest": {
-		"zf1/zend-registry": "Used in special situations or with special adapters"
 	}
 }
